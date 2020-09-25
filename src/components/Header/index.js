@@ -6,7 +6,6 @@ import { styles } from './styles'
 const Header = () => {
   return (
     <View style={styles.container}>
-
       <StatusBar backgroundColor={colors.primaryDark} barStyle="light-content" />
       
       <Text style={styles.title}>AVAILABILITIES</Text>

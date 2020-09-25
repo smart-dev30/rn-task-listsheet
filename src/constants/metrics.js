@@ -19,4 +19,5 @@ export default {
   bottomSafeHeight,
 
   headerHeight: 64,
+  itemHeight: 60,
 }
