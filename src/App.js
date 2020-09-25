@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import ListSheet from "./ListSheet";
+import ListSheet from "./screens/ListSheet";
 
 const styles = StyleSheet.create({
   container: {
