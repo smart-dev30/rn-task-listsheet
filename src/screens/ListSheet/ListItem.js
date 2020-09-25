@@ -16,7 +16,7 @@ const ListItem = ({ date }) => {
 
       <View style={styles.timeInfo}>
         <Text style={styles.dot}>&#9679;&nbsp;</Text>
-        <Text style={styles.description}>10:00AM - 06:00PM</Text>
+        <Text style={styles.description}>10:00 AM - 06:00 PM</Text>
       </View>
     </View>
   )

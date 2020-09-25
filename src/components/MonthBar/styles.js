@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: spaces.medium,
-    height: metrics.itemHeight,
+    height: 48,
     backgroundColor: colors.lightGrey,
     alignItems: 'center',
     justifyContent: 'space-between',
