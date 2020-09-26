@@ -16,7 +16,8 @@ import {
 } from 'react-native'
 
 import Option from './Option'
-
+import metrics from 'constants/metrics'
+import spaces from 'constants/spaces'
 import { cancelOption } from 'constants/data'
 
 import { styles, contentContainerStyle } from './styles'
@@ -24,22 +25,23 @@ import { styles, contentContainerStyle } from './styles'
 const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
   const [visible, setVisible] = useState(false)
   const [selected, setSelected] = useState(selectedOption)
-
-  const translateY = 0
   let isScrollEnabled = false
 
+  const getSheetHeight = () => {
+    const scrollContent = metrics.optionHeight * options.length + spaces.medium * 2
+    const footer = spaces.small * 2 + metrics.bottomSafeHeight + metrics.optionHeight
+    const height = scrollContent + footer
+
+    const maxHeight = metrics.screenHeight * 0.8
+
+    isScrollEnabled = height > maxHeight
+
+    return Math.min(height, maxHeight)
+  }
+
+  let translateY = getSheetHeight()
   const sheetAnimation = useRef(new Animated.Value(translateY)).current
   const overlayAnimation = useRef(new Animated.Value(0)).current
-
-  // getSheetContentHeight = () => {
-  //   const options = props.options.length * getHeight(Option)
-  //   const bottomSpace = getBottomSpace(props, true)
-  //   const maxHeight = getMaxHeight(props)
-
-  //   let height = header + options + separators + extraBottomSpace
-
-  //   return height
-  // }
 
   useEffect(() => {
     if (visible) {
@@ -57,7 +59,7 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
     Animated.parallel([
       Animated.timing(sheetAnimation, {
         toValue: 0,
-        duration: 100,
+        duration: 200,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }),
@@ -74,7 +76,7 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
     Animated.parallel([
       Animated.timing(sheetAnimation, {
         toValue: translateY,
-        duration: 100,
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(overlayAnimation, {
@@ -102,6 +104,10 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
     hide(option)
   }
 
+  const listStyle = {
+    height: translateY,
+    transform: [{ translateY: sheetAnimation }],
+  }
   const opacityInterpolation = overlayAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 0.4],
@@ -120,19 +126,21 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
           <Animated.View style={[styles.overlay, overlayStyle]} />
         </TouchableWithoutFeedback>
 
-        <View style={styles.content}>
-          <ScrollView contentContainerStyle={contentContainerStyle} scrollEnabled={isScrollEnabled}>
-            {
-              options.map(option => (
-                <Option
-                  key={`option-${option.value}`}
-                  option={option}
-                  onChange={handleOptionChange}
-                  isSelected={selected && (option.value == selected.value)}
-                />
-              ))
-            }
-          </ScrollView>
+        <Animated.View style={[styles.list, listStyle]}>
+          <View style={styles.content}>
+            <ScrollView contentContainerStyle={contentContainerStyle} scrollEnabled={isScrollEnabled}>
+              {
+                options.map(option => (
+                  <Option
+                    key={`option-${option.value}`}
+                    option={option}
+                    onChange={handleOptionChange}
+                    isSelected={selected && (option.value == selected.value)}
+                  />
+                ))
+              }
+            </ScrollView>
+          </View>
 
           <View style={styles.footer}>
             <Option
@@ -141,7 +149,7 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
               isCancel
             />
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   )

@@ -18,18 +18,24 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
 
+  list: {
+
+  },
+
   content: {
-    paddingTop: spaces.medium,
-    paddingBottom: metrics.bottomSpace,
+    flex: 1,
+    paddingVertical: spaces.medium,
     paddingHorizontal: spaces.medium,
     backgroundColor: 'white',
   },
 
   footer: {
-    marginTop: spaces.medium,
     borderTopWidth: 1,
     borderTopColor: colors.grey,
-    paddingVertical: spaces.small,
+    paddingHorizontal: spaces.small,
+    paddingTop: spaces.small,
+    paddingBottom: spaces.small + metrics.bottomSafeHeight,
+    backgroundColor: 'white',
   },
 
   textPrimary: {
@@ -49,7 +55,6 @@ export const styles = StyleSheet.create({
 
 export const contentContainerStyle = StyleSheet.create({
   contentContainer: {
-    paddingBottom: metrics.bottomSpace,
     paddingHorizontal: spaces.medium,
   }
 });

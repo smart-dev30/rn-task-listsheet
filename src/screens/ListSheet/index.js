@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, FlatList } from 'react-native'
 import moment from 'moment'
 import range from 'lodash/range'
@@ -10,12 +10,14 @@ import { smallOptions, largeOptions } from 'constants/data'
 import { styles } from './styles'
 
 const ListSheet = () => {
+  const [date, setDate] = useState(moment())
+  
   const getWeekName = day => {
-    const givenDay = moment().set('date', day + 1)
+    const givenDay = date.set('date', day + 1)
     return givenDay.format('dddd')
   }
 
-  const days = range(moment().daysInMonth()).map(day => ({
+  const days = range(date.daysInMonth()).map(day => ({
     day,
     weekDay: getWeekName(day),
   }))
@@ -30,13 +32,18 @@ const ListSheet = () => {
     console.log(option)
   }
 
+  handleMonthChange = selectedDate => {
+    setDate(selectedDate)
+    console.log(selectedDate.format())
+  }
+
   return (
     <View style={styles.container}>
       <Header />
 
-      <Selector options={smallOptions} onSelect={handleSelectOption} />
+      <Selector options={largeOptions} onSelect={handleSelectOption} />
 
-      <MonthBar />
+      <MonthBar onChange={handleMonthChange} date={date} />
 
       <FlatList
         data={days}
