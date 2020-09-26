@@ -2,25 +2,29 @@ import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { styles } from './styles'
 
-const Option = ({ option, onChange, isSelected }) => {
+const Option = ({ option, onChange, isSelected, isCancel }) => {
   const handlePress = () => {
     onChange(option)
   }
 
   return (
-    <TouchableOpacity onPress={handlePress}>
-      <View style={[
-        styles.container,
-        isSelected && styles.selectedBackground
-      ]}>
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={handlePress}
+        style={[
+          styles.content,
+          isSelected && styles.selectedBackground
+        ]}
+      >
         <Text style={[
           styles.label,
+          isCancel && styles.cancelLabel,
           isSelected && styles.selectedLabel
         ]}>
           {option.label}
         </Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   )
 }
 

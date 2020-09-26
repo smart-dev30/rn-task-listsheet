@@ -19,13 +19,17 @@ export const styles = StyleSheet.create({
   },
 
   content: {
+    paddingTop: spaces.medium,
+    paddingBottom: metrics.bottomSpace,
+    paddingHorizontal: spaces.medium,
     backgroundColor: 'white',
   },
 
   footer: {
+    marginTop: spaces.medium,
     borderTopWidth: 1,
     borderTopColor: colors.grey,
-    paddingVertical: spaces.medium,
+    paddingVertical: spaces.small,
   },
 
   textPrimary: {

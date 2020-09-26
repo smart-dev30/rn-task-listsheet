@@ -5,14 +5,14 @@ import metrics from 'constants/metrics'
 
 export const styles = StyleSheet.create({
   container: {
-    marginHorizontal: spaces.medium,
-    marginVertical: spaces.small,
-    padding: spaces.small,
+    backgroundColor: colors.white,
+  },
+
+  content: {
     borderRadius: 20,
     height: metrics.optionHeight,
-    alignItems: 'center',
+    paddingHorizontal: spaces.medium,
     justifyContent: 'center',
-    backgroundColor: colors.white,
   },
 
   selectedBackground: {
@@ -23,6 +23,10 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: colors.primaryText,
+  },
+
+  cancelLabel: {
+    color: colors.primaryDark,
   },
 
   selectedLabel: {

@@ -1,3 +1,7 @@
+const cancelOption = {
+  value: 0, label: 'Cancel',
+}
+
 const smallOptions = [
   {value: 1, label: 'Option 1'},
   {value: 2, label: 'Option 2'},
@@ -31,6 +35,7 @@ const largeOptions = [
 ]
 
 export {
+  cancelOption,
   smallOptions,
   largeOptions,
 }

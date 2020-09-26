@@ -17,6 +17,8 @@ import {
 
 import Option from './Option'
 
+import { cancelOption } from 'constants/data'
+
 import { styles, contentContainerStyle } from './styles'
 
 const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
@@ -131,6 +133,14 @@ const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
               ))
             }
           </ScrollView>
+
+          <View style={styles.footer}>
+            <Option
+              option={cancelOption}
+              onChange={handleCancel}
+              isCancel
+            />
+          </View>
         </View>
       </View>
     </Modal>
