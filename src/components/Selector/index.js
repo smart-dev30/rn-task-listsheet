@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   TouchableWithoutFeedback,
@@ -11,18 +11,26 @@ import noop from 'lodash/noop'
 
 import { styles } from './styles'
 
-const Selector = ({ onSelect, onPlus, options }) => {
+const Selector = ({ options, onSelect, onPlus }) => {
+  const [selection, setSelection] = useState(null)
   const actionsRef = useRef()
 
-  handlePress = () => {
+  const handlePress = () => {
     actionsRef.current.show()
+  }
+
+  const handleChange = value => {
+    setSelection(value)
+    onSelect(value)
   }
 
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <View style={styles.button}>
-          <Text style={styles.buttonTitle}>Please select</Text>
+          <Text style={styles.buttonTitle}>
+            {selection ? selection.label : 'Please select'}
+          </Text>
 
           <Image style={styles.iconDown} source={require('images/down.png')} />
         </View>
@@ -35,7 +43,7 @@ const Selector = ({ onSelect, onPlus, options }) => {
       <ActionSheet
         ref={actionsRef}
         options={options || []}
-        onChange={noop}
+        onChange={handleChange}
       />
     </View>
   )

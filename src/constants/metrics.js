@@ -20,4 +20,5 @@ export default {
 
   headerHeight: 64,
   itemHeight: 60,
+  optionHeight: 40,
 }

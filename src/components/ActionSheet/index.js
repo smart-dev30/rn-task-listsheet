@@ -8,18 +8,23 @@ import React, {
 
 import {
   Modal,
+  View,
   ScrollView,
   Animated,
   Easing,
   TouchableWithoutFeedback
 } from 'react-native'
 
-import { styles } from './styles'
+import Option from './Option'
 
-const ActionSheet = forwardRef(({ onChange, options }, ref) => {
+import { styles, contentContainerStyle } from './styles'
+
+const ActionSheet = forwardRef(({ onChange, options, selectedOption }, ref) => {
   const [visible, setVisible] = useState(false)
+  const [selected, setSelected] = useState(selectedOption)
 
   const translateY = 0
+  let isScrollEnabled = false
 
   const sheetAnimation = useRef(new Animated.Value(translateY)).current
   const overlayAnimation = useRef(new Animated.Value(0)).current
@@ -47,39 +52,39 @@ const ActionSheet = forwardRef(({ onChange, options }, ref) => {
   }))
 
   const showSheet = () => {
-    console.log('showSheet')
     Animated.parallel([
       Animated.timing(sheetAnimation, {
         toValue: 0,
-        duration: 250,
+        duration: 100,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }),
       Animated.timing(overlayAnimation, {
         toValue: 1,
-        duration: 400,
+        duration: 200,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }),
     ]).start()
   }
 
-  hide = value => {
-    console.log('hideSheet')
+  const hide = value => {
     Animated.parallel([
       Animated.timing(sheetAnimation, {
         toValue: translateY,
-        duration: 200,
+        duration: 100,
         useNativeDriver: true,
       }),
       Animated.timing(overlayAnimation, {
         toValue: 0,
-        duration: 400,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start(handleHideCallback)
 
-    onChange(value)
+    if (value) {
+      onChange(value)
+    }
   }
 
   const handleCancel = () => {
@@ -87,13 +92,17 @@ const ActionSheet = forwardRef(({ onChange, options }, ref) => {
   }
 
   const handleHideCallback = () => {
-    console.log('hideSheet-done')
     setVisible(false)
+  }
+
+  const handleOptionChange = option => {
+    setSelected(option)
+    hide(option)
   }
 
   const opacityInterpolation = overlayAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 0.7],
+    outputRange: [0, 0.4],
   })
   const overlayStyle = { opacity: opacityInterpolation }
 
@@ -104,13 +113,26 @@ const ActionSheet = forwardRef(({ onChange, options }, ref) => {
       transparent
       onRequestClose={handleCancel}
     >
-      <TouchableWithoutFeedback onPress={handleCancel}>
-        <Animated.View style={[styles.overlay, overlayStyle]} />
-      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={handleCancel}>
+          <Animated.View style={[styles.overlay, overlayStyle]} />
+        </TouchableWithoutFeedback>
 
-      <ScrollView style={styles.container}>
-        
-      </ScrollView>
+        <View style={styles.content}>
+          <ScrollView contentContainerStyle={contentContainerStyle} scrollEnabled={isScrollEnabled}>
+            {
+              options.map(option => (
+                <Option
+                  key={`option-${option.value}`}
+                  option={option}
+                  onChange={handleOptionChange}
+                  isSelected={selected && (option.value == selected.value)}
+                />
+              ))
+            }
+          </ScrollView>
+        </View>
+      </View>
     </Modal>
   )
 })

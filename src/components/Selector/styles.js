@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
 
   buttonTitle: {
     flex: 1,
-    color: colors.textPrimary,
+    color: colors.primaryText,
     fontSize: 16,
   },
 

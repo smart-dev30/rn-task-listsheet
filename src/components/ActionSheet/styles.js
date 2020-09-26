@@ -19,8 +19,7 @@ export const styles = StyleSheet.create({
   },
 
   content: {
-    paddingBottom: metrics.bottomSpace,
-    paddingHorizontal: spaces.medium,
+    backgroundColor: 'white',
   },
 
   footer: {
@@ -43,3 +42,10 @@ export const styles = StyleSheet.create({
     color: colors.white,
   },
 })
+
+export const contentContainerStyle = StyleSheet.create({
+  contentContainer: {
+    paddingBottom: metrics.bottomSpace,
+    paddingHorizontal: spaces.medium,
+  }
+});

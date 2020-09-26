@@ -6,6 +6,7 @@ import Header from 'components/Header'
 import Selector from 'components/Selector'
 import MonthBar from 'components/MonthBar'
 import ListItem from './ListItem'
+import { smallOptions, largeOptions } from 'constants/data'
 import { styles } from './styles'
 
 const ListSheet = () => {
@@ -25,11 +26,15 @@ const ListSheet = () => {
     <ListItem date={item} />
   )
 
+  handleSelectOption = option => {
+    console.log(option)
+  }
+
   return (
     <View style={styles.container}>
       <Header />
 
-      <Selector/>
+      <Selector options={smallOptions} onSelect={handleSelectOption} />
 
       <MonthBar />
 
