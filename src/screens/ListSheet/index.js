@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { View, FlatList } from 'react-native'
 import moment from 'moment'
 import range from 'lodash/range'
@@ -11,7 +11,8 @@ import { styles } from './styles'
 
 const ListSheet = () => {
   const [date, setDate] = useState(moment())
-  
+  const [hasTime, setHasTime] = useState(false)
+
   const getWeekName = day => {
     const givenDay = date.set('date', day + 1)
     return givenDay.format('dddd')
@@ -25,16 +26,15 @@ const ListSheet = () => {
   keyExtractor = item => `item-${item.day}`
 
   renderItem = ({ item }) => (
-    <ListItem date={item} />
+    <ListItem date={item} hasTime={hasTime} />
   )
 
   handleSelectOption = option => {
-    console.log(option)
+    setHasTime(option.value === 1)
   }
 
   handleMonthChange = selectedDate => {
     setDate(selectedDate)
-    console.log(selectedDate.format())
   }
 
   return (
